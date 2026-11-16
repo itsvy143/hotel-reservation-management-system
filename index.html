@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Manage hotel rooms, guest reservations, and bookings."
+    />
+    <title>StayEase | Hotel Reservation Management</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#">
+        <span class="brand-icon">S</span>
+        <span>StayEase</span>
+      </a>
+      <span class="topbar-label">Hotel Management System</span>
+    </header>
+
+    <main class="container">
+      <section class="welcome-section">
+        <div>
+          <p class="eyebrow">HOTEL ADMINISTRATION</p>
+          <h1>Reservation Dashboard</h1>
+          <p class="muted">
+            Manage rooms, guests, and hotel reservations in one place.
+          </p>
+        </div>
+        <div class="today-card">
+          <span>Today's date</span>
+          <strong id="today-date">Loading...</strong>
+        </div>
+      </section>
+
+      <section class="stats-grid" aria-label="Reservation statistics">
+        <article class="stat-card">
+          <span class="stat-label">Total Reservations</span>
+          <strong id="total-reservations">0</strong>
+          <span class="stat-note">All booking records</span>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Confirmed</span>
+          <strong id="confirmed-reservations">0</strong>
+          <span class="stat-note">Confirmed bookings</span>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Pending</span>
+          <strong id="pending-reservations">0</strong>
+          <span class="stat-note">Awaiting confirmation</span>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Available Rooms</span>
+          <strong id="available-rooms">0</strong>
+          <span class="stat-note">Rooms in the hotel</span>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">ACCOMMODATIONS</p>
+            <h2>Our Rooms</h2>
+            <p class="muted">Choose a room for your guest's reservation.</p>
+          </div>
+        </div>
+        <div id="room-list" class="room-grid"></div>
+      </section>
+
+      <section class="content-grid">
+        <section class="panel reservation-panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">BOOKING DETAILS</p>
+              <h2 id="form-heading">Create a Reservation</h2>
+            </div>
+          </div>
+
+          <form id="reservation-form">
+            <input type="hidden" id="reservation-id" />
+
+            <div class="form-group">
+              <label for="guest-name">Guest Full Name</label>
+              <input
+                id="guest-name"
+                name="guestName"
+                type="text"
+                placeholder="Enter guest's full name"
+                maxlength="80"
+                required
+              />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="guest-email">Email Address</label>
+                <input
+                  id="guest-email"
+                  name="guestEmail"
+                  type="email"
+                  placeholder="guest@email.com"
+                  maxlength="120"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="guest-phone">Phone Number</label>
+                <input
+                  id="guest-phone"
+                  name="guestPhone"
+                  type="tel"
+                  placeholder="09XXXXXXXXX"
+                  maxlength="20"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="room-select">Room Type</label>
+              <select id="room-select" name="roomId" required>
+                <option value="">Select a room</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="check-in">Check-in Date</label>
+                <input id="check-in" name="checkIn" type="date" required />
+              </div>
+              <div class="form-group">
+                <label for="check-out">Check-out Date</label>
+                <input id="check-out" name="checkOut" type="date" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="guest-count">Number of Guests</label>
+              <input
+                id="guest-count"
+                name="guestCount"
+                type="number"
+                min="1"
+                max="6"
+                value="1"
+                required
+              />
+            </div>
+
+            <div class="price-preview">
+              <span>Estimated Total</span>
+              <strong id="estimated-total">₱0.00</strong>
+              <small id="price-breakdown">Select a room and dates.</small>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn btn-primary" id="submit-button" type="submit">
+                Create Reservation
+              </button>
+              <button class="btn btn-secondary" id="clear-button" type="button">
+                Clear Form
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <section class="panel information-panel">
+          <p class="eyebrow">BOOKING INFORMATION</p>
+          <h2>Reservation Guide</h2>
+          <div class="guide-item">
+            <span class="guide-number">01</span>
+            <div>
+              <strong>Select a room</strong>
+              <p>Choose a room that matches the guest's needs.</p>
+            </div>
+          </div>
+          <div class="guide-item">
+            <span class="guide-number">02</span>
+            <div>
+              <strong>Enter guest details</strong>
+              <p>Provide the guest's contact information.</p>
+            </div>
+          </div>
+          <div class="guide-item">
+            <span class="guide-number">03</span>
+            <div>
+              <strong>Choose dates</strong>
+              <p>Set check-in and check-out dates to calculate the cost.</p>
+            </div>
+          </div>
+          <div class="guide-item">
+            <span class="guide-number">04</span>
+            <div>
+              <strong>Confirm the booking</strong>
+              <p>New reservations start with Pending status.</p>
+            </div>
+          </div>
+          <div class="notice">
+            <strong>Important</strong>
+            <p>
+              A room cannot have overlapping pending or confirmed reservations.
+              Cancelled reservations do not block room availability.
+            </p>
+          </div>
+        </section>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading reservation-heading">
+          <div>
+            <p class="eyebrow">BOOKING RECORDS</p>
+            <h2>Manage Reservations</h2>
+            <p class="muted">Review, edit, confirm, or cancel bookings.</p>
+          </div>
+          <div class="filter-control">
+            <label for="status-filter">Filter by status</label>
+            <select id="status-filter">
+              <option value="All">All Reservations</option>
+              <option value="Pending">Pending</option>
+              <option value="Confirmed">Confirmed</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Reference</th>
+                <th>Guest</th>
+                <th>Room</th>
+                <th>Check-in</th>
+                <th>Check-out</th>
+                <th>Guests</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="reservation-table-body"></tbody>
+          </table>
+        </div>
+        <p id="empty-message" class="empty-message">
+          No reservations found. Create your first reservation above.
+        </p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>StayEase Hotel Management System &copy; 2026</p>
+      <p>Practice Project — HTML, CSS, and JavaScript</p>
+    </footer>
+  </body>
+</html>
